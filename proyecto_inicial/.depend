@@ -1,1 +1,0 @@
-tiny_md.o: tiny_md.c tiny_md.h

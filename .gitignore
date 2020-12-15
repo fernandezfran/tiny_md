@@ -1,0 +1,8 @@
+.depend
+out*
+tiny_md
+*.o
+*.out
+*.xyz
+*.dat
+*.png
