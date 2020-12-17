@@ -75,6 +75,7 @@ void forces(const double *rxyz, double *fxyz, double *epot, double *pres,
     // algunas constantes necesarias 
     __m128d a0  = _mm_setzero_pd(); 
     __m128d a1  = _mm_set1_pd(1.0); 
+    __m128d m1  = _mm_set1_pd(-1.0); 
     __m128d a2  = _mm_set1_pd(2.0); 
     __m128d a4  = _mm_set1_pd(4.0); 
     __m128d a24 = _mm_set1_pd(24.0);
@@ -85,10 +86,12 @@ void forces(const double *rxyz, double *fxyz, double *epot, double *pres,
     double L2 = 0.5 * L;
     __m128d cell_side  = _mm_set1_pd(L);
     __m128d cell_side2 = _mm_set1_pd(L2);
+    __m128d mcell_side2 = _mm_mul_pd(m1, cell_side2);
     // inicializo epot y pres_vir
     __m128d ect = _mm_set1_pd(ecut);
     __m128d pot = a0;
     __m128d vir = a0;
+    __m128d mask;
 
     for (int i = 0; i < N; i++){ // N multiplo de 2; hay otro i++ abajo
                                  // para ver el lim de la matriz con j
@@ -117,7 +120,28 @@ void forces(const double *rxyz, double *fxyz, double *epot, double *pres,
             
             // imagen mínimia si x < -L/2 => x += L
             //                si x >  L/2 => x -= L
+            mask = _mm_cmplt_pd(rx, mcell_side2); // devuelve rx si sí, si no 0 (?)
+            mask = _mm_and_pd(rx, mask);          // 1 si true 0 si false       (?)
+                              // si mask = 0 => rx = rx, si mask = 1 => rx += L (?)
+            rx = _mm_blendv_pd(rx, _mm_add_pd(rx, cell_side), mask);
+            mask = _mm_cmpgt_pd(rx, cell_side2);
+            mask = _mm_and_pd(rx, mask);
+            rx = _mm_blendv_pd(rx, _mm_sub_pd(rx, cell_side), mask);
 
+            mask = _mm_cmplt_pd(ry, mcell_side2);
+            mask = _mm_and_pd(ry, mask);
+            ry = _mm_blendv_pd(ry, _mm_add_pd(ry, cell_side), mask);
+            mask = _mm_cmpgt_pd(ry, cell_side2);
+            mask = _mm_and_pd(ry, mask);
+            ry = _mm_blendv_pd(ry, _mm_sub_pd(ry, cell_side), mask);
+            
+            mask = _mm_cmplt_pd(rz, mcell_side2);
+            mask = _mm_and_pd(rz, mask);
+            rz = _mm_blendv_pd(rz, _mm_add_pd(rz, cell_side), mask);
+            mask = _mm_cmpgt_pd(rz, cell_side2);
+            mask = _mm_and_pd(rz, mask);
+            rz = _mm_blendv_pd(rz, _mm_sub_pd(rz, cell_side), mask);
+            
             // double rij2 = rx*rx + ry*ry + rz*rz;
             __m128d rij2 = _mm_add_pd(_mm_add_pd(_mm_mul_pd(rx, rx),
                                                  _mm_mul_pd(ry, ry)),

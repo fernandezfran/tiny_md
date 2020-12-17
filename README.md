@@ -26,6 +26,6 @@ Proyecto de speed-up de un código de Dinámica Molecualar NVT (reescaleo de vel
 
         ¿qué loops autovectoriza gcc de acuerdo a si tengo SoA o AoS? ¿ayuda agregar loops naiv?
 
-    2. sse2/
+    2. sse/
 
-        vectorización del cálculo de fuerzas con sse 2 (empezado, faltan los if).
+        vectorización del cálculo de fuerzas con sse (empezado, falta).

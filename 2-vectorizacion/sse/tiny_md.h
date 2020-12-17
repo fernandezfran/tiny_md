@@ -20,6 +20,7 @@
 #include <omp.h>    // omp_get_wtime()
 // intrinsics force
 #include <emmintrin.h>
+#include <smmintrin.h>
 //
 
 #ifndef N // número de particulas (debe ser un 4m^3 para el cristal inicial)
