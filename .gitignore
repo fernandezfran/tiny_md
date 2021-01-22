@@ -1,8 +1,10 @@
 .depend
-out*
 tiny_md
 *.o
-*.out
 *.xyz
 *.dat
-*.png
+
+informe/imagenes/
+informe/*.aux
+informe/*.log
+informe/*.gz
