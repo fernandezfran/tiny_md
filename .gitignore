@@ -3,10 +3,12 @@ tiny_md
 *.o
 *.xyz
 *.log
-*.perf
+perf.*
+*.out
 *.txt
 
 informe/imagenes/
 informe/*.aux
+informe/*.out
 informe/*.log
 informe/*.gz

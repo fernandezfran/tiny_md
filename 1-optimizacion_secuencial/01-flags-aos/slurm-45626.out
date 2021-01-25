@@ -1,0 +1,300 @@
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+          18387.16 msec task-clock                #    0.999 CPUs utilized            ( +-  0.12% )
+              1907      context-switches          #    0.104 K/sec                    ( +-  0.29% )
+                 0      cpu-migrations            #    0.000 K/sec                    ( +- 69.48% )
+               100      page-faults               #    0.005 K/sec                    ( +-  0.22% )
+       59511444234      cycles                    #    3.237 GHz                      ( +-  0.02% )
+       96522309021      instructions              #    1.62  insn per cycle           ( +-  0.00% )
+        8689393680      branches                  #  472.580 M/sec                    ( +-  0.00% )
+         507731937      branch-misses             #    5.84% of all branches          ( +-  0.00% )
+
+           18.4113 +- 0.0220 seconds time elapsed  ( +-  0.12% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+          10033.44 msec task-clock                #    0.999 CPUs utilized            ( +-  0.11% )
+               993      context-switches          #    0.099 K/sec                    ( +-  0.19% )
+                 0      cpu-migrations            #    0.000 K/sec                    ( +-100.00% )
+               100      page-faults               #    0.010 K/sec                    ( +-  0.27% )
+       32319480602      cycles                    #    3.221 GHz                      ( +-  0.05% )
+       45529915244      instructions              #    1.41  insn per cycle           ( +-  0.00% )
+        8619950036      branches                  #  859.122 M/sec                    ( +-  0.00% )
+         510823176      branch-misses             #    5.93% of all branches          ( +-  0.00% )
+
+           10.0455 +- 0.0115 seconds time elapsed  ( +-  0.11% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           9127.65 msec task-clock                #    0.999 CPUs utilized            ( +-  0.11% )
+               911      context-switches          #    0.100 K/sec                    ( +-  0.11% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.011 K/sec                    ( +-  0.23% )
+       29428645757      cycles                    #    3.224 GHz                      ( +-  0.00% )
+       38588124736      instructions              #    1.31  insn per cycle           ( +-  0.00% )
+        8478351736      branches                  #  928.865 M/sec                    ( +-  0.00% )
+         510068719      branch-misses             #    6.02% of all branches          ( +-  0.00% )
+
+            9.1396 +- 0.0104 seconds time elapsed  ( +-  0.11% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7708.76 msec task-clock                #    0.999 CPUs utilized            ( +-  0.11% )
+               773      context-switches          #    0.100 K/sec                    ( +-  0.20% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.013 K/sec                    ( +-  0.23% )
+       24805528125      cycles                    #    3.218 GHz                      ( +-  0.00% )
+       29976553353      instructions              #    1.21  insn per cycle           ( +-  0.00% )
+        5186782090      branches                  #  672.842 M/sec                    ( +-  0.00% )
+         540303269      branch-misses             #   10.42% of all branches          ( +-  0.01% )
+
+           7.71938 +- 0.00903 seconds time elapsed  ( +-  0.12% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7686.01 msec task-clock                #    0.999 CPUs utilized            ( +-  0.10% )
+               766      context-switches          #    0.100 K/sec                    ( +-  0.17% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.013 K/sec                    ( +-  0.29% )
+       24787620095      cycles                    #    3.225 GHz                      ( +-  0.00% )
+       29918891951      instructions              #    1.21  insn per cycle           ( +-  0.00% )
+        5177528742      branches                  #  673.630 M/sec                    ( +-  0.00% )
+         539700931      branch-misses             #   10.42% of all branches          ( +-  0.01% )
+
+           7.69623 +- 0.00770 seconds time elapsed  ( +-  0.10% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7491.31 msec task-clock                #    0.998 CPUs utilized            ( +-  0.10% )
+               747      context-switches          #    0.100 K/sec                    ( +-  0.12% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.013 K/sec                    ( +-  0.29% )
+       24036465069      cycles                    #    3.209 GHz                      ( +-  0.00% )
+       26805779612      instructions              #    1.12  insn per cycle           ( +-  0.00% )
+        5132960527      branches                  #  685.189 M/sec                    ( +-  0.00% )
+         537079615      branch-misses             #   10.46% of all branches          ( +-  0.01% )
+
+           7.50276 +- 0.00734 seconds time elapsed  ( +-  0.10% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+          10504.58 msec task-clock                #    0.999 CPUs utilized            ( +-  0.11% )
+              1043      context-switches          #    0.099 K/sec                    ( +-  0.32% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.010 K/sec                    ( +-  0.23% )
+       33899665924      cycles                    #    3.227 GHz                      ( +-  0.03% )
+       44391964943      instructions              #    1.31  insn per cycle           ( +-  0.00% )
+        8593419633      branches                  #  818.064 M/sec                    ( +-  0.00% )
+         521055318      branch-misses             #    6.06% of all branches          ( +-  0.01% )
+
+           10.5170 +- 0.0121 seconds time elapsed  ( +-  0.12% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7714.23 msec task-clock                #    0.999 CPUs utilized            ( +-  0.11% )
+               770      context-switches          #    0.100 K/sec                    ( +-  0.13% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.013 K/sec                    ( +-  0.26% )
+       24845355298      cycles                    #    3.221 GHz                      ( +-  0.06% )
+       29900159789      instructions              #    1.20  insn per cycle           ( +-  0.00% )
+        5171258646      branches                  #  670.353 M/sec                    ( +-  0.00% )
+         541671067      branch-misses             #   10.47% of all branches          ( +-  0.01% )
+
+           7.72506 +- 0.00842 seconds time elapsed  ( +-  0.11% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           9783.42 msec task-clock                #    0.999 CPUs utilized            ( +-  0.12% )
+               968      context-switches          #    0.099 K/sec                    ( +-  0.17% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.010 K/sec                    ( +-  0.24% )
+       31486437131      cycles                    #    3.218 GHz                      ( +-  0.01% )
+       45576964976      instructions              #    1.45  insn per cycle           ( +-  0.00% )
+        8616124354      branches                  #  880.686 M/sec                    ( +-  0.00% )
+         506437223      branch-misses             #    5.88% of all branches          ( +-  0.00% )
+
+            9.7953 +- 0.0118 seconds time elapsed  ( +-  0.12% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7471.86 msec task-clock                #    0.999 CPUs utilized            ( +-  0.09% )
+               748      context-switches          #    0.100 K/sec                    ( +-  0.11% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.013 K/sec                    ( +-  0.28% )
+       24037633964      cycles                    #    3.217 GHz                      ( +-  0.00% )
+       26805719142      instructions              #    1.12  insn per cycle           ( +-  0.00% )
+        5132950271      branches                  #  686.971 M/sec                    ( +-  0.00% )
+         537224957      branch-misses             #   10.47% of all branches          ( +-  0.01% )
+
+           7.48273 +- 0.00680 seconds time elapsed  ( +-  0.09% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           9821.32 msec task-clock                #    0.999 CPUs utilized            ( +-  0.12% )
+               974      context-switches          #    0.099 K/sec                    ( +-  0.25% )
+                 0      cpu-migrations            #    0.000 K/sec                    ( +-100.00% )
+               100      page-faults               #    0.010 K/sec                    ( +-  0.28% )
+       31621890790      cycles                    #    3.220 GHz                      ( +-  0.02% )
+       37672527952      instructions              #    1.19  insn per cycle           ( +-  0.00% )
+        8593121526      branches                  #  874.946 M/sec                    ( +-  0.00% )
+         512988538      branch-misses             #    5.97% of all branches          ( +-  0.01% )
+
+            9.8338 +- 0.0123 seconds time elapsed  ( +-  0.12% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7461.80 msec task-clock                #    0.999 CPUs utilized            ( +-  0.17% )
+               743      context-switches          #    0.100 K/sec                    ( +-  0.24% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.013 K/sec                    ( +-  0.28% )
+       23842692356      cycles                    #    3.195 GHz                      ( +-  0.01% )
+       22067739091      instructions              #    0.93  insn per cycle           ( +-  0.00% )
+        5175932859      branches                  #  693.658 M/sec                    ( +-  0.00% )
+         540844044      branch-misses             #   10.45% of all branches          ( +-  0.02% )
+
+            7.4717 +- 0.0128 seconds time elapsed  ( +-  0.17% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7681.05 msec task-clock                #    0.999 CPUs utilized            ( +-  0.12% )
+               768      context-switches          #    0.100 K/sec                    ( +-  0.20% )
+                 0      cpu-migrations            #    0.000 K/sec                    ( +-100.00% )
+               100      page-faults               #    0.013 K/sec                    ( +-  0.25% )
+       24739953899      cycles                    #    3.221 GHz                      ( +-  0.01% )
+       39140902382      instructions              #    1.58  insn per cycle           ( +-  0.00% )
+        7027150358      branches                  #  914.868 M/sec                    ( +-  0.00% )
+         277069291      branch-misses             #    3.94% of all branches          ( +-  0.00% )
+
+           7.69200 +- 0.00942 seconds time elapsed  ( +-  0.12% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           6075.40 msec task-clock                #    0.999 CPUs utilized            ( +-  0.19% )
+               604      context-switches          #    0.099 K/sec                    ( +-  0.24% )
+                 0      cpu-migrations            #    0.000 K/sec                    ( +-100.00% )
+               101      page-faults               #    0.017 K/sec                    ( +-  0.95% )
+       19340616219      cycles                    #    3.183 GHz                      ( +-  0.10% )
+       21675078485      instructions              #    1.12  insn per cycle           ( +-  0.00% )
+        3498838983      branches                  #  575.902 M/sec                    ( +-  0.00% )
+         286887699      branch-misses             #    8.20% of all branches          ( +-  0.02% )
+
+            6.0834 +- 0.0115 seconds time elapsed  ( +-  0.19% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7661.55 msec task-clock                #    0.999 CPUs utilized            ( +-  0.32% )
+               764      context-switches          #    0.100 K/sec                    ( +-  0.38% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+                99      page-faults               #    0.013 K/sec                    ( +-  0.20% )
+       24662869431      cycles                    #    3.219 GHz                      ( +-  0.31% )
+       39049351539      instructions              #    1.58  insn per cycle           ( +-  0.00% )
+        7000450129      branches                  #  913.712 M/sec                    ( +-  0.00% )
+         277633309      branch-misses             #    3.97% of all branches          ( +-  0.00% )
+
+            7.6715 +- 0.0249 seconds time elapsed  ( +-  0.32% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           6088.85 msec task-clock                #    0.999 CPUs utilized            ( +-  0.09% )
+               607      context-switches          #    0.100 K/sec                    ( +-  0.18% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.016 K/sec                    ( +-  0.29% )
+       19225569782      cycles                    #    3.158 GHz                      ( +-  0.01% )
+       21662415069      instructions              #    1.13  insn per cycle           ( +-  0.00% )
+        3494837972      branches                  #  573.973 M/sec                    ( +-  0.00% )
+         287610531      branch-misses             #    8.23% of all branches          ( +-  0.02% )
+
+           6.09719 +- 0.00530 seconds time elapsed  ( +-  0.09% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+          10052.33 msec task-clock                #    0.999 CPUs utilized            ( +-  0.10% )
+               996      context-switches          #    0.099 K/sec                    ( +-  0.13% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.010 K/sec                    ( +-  0.22% )
+       32309698022      cycles                    #    3.214 GHz                      ( +-  0.01% )
+       45529752968      instructions              #    1.41  insn per cycle           ( +-  0.00% )
+        8619922215      branches                  #  857.505 M/sec                    ( +-  0.00% )
+         510822733      branch-misses             #    5.93% of all branches          ( +-  0.00% )
+
+           10.0647 +- 0.0102 seconds time elapsed  ( +-  0.10% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7716.63 msec task-clock                #    0.999 CPUs utilized            ( +-  0.11% )
+               768      context-switches          #    0.100 K/sec                    ( +-  0.18% )
+                 0      cpu-migrations            #    0.000 K/sec                    ( +-100.00% )
+               100      page-faults               #    0.013 K/sec                    ( +-  0.84% )
+       24791626566      cycles                    #    3.213 GHz                      ( +-  0.01% )
+       29919030564      instructions              #    1.21  insn per cycle           ( +-  0.00% )
+        5177559883      branches                  #  670.962 M/sec                    ( +-  0.00% )
+         539587400      branch-misses             #   10.42% of all branches          ( +-  0.02% )
+
+           7.72660 +- 0.00863 seconds time elapsed  ( +-  0.11% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           9806.51 msec task-clock                #    0.999 CPUs utilized            ( +-  0.12% )
+               969      context-switches          #    0.099 K/sec                    ( +-  0.19% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.010 K/sec                    ( +-  0.29% )
+       31614521791      cycles                    #    3.224 GHz                      ( +-  0.01% )
+       37672443735      instructions              #    1.19  insn per cycle           ( +-  0.00% )
+        8593106199      branches                  #  876.266 M/sec                    ( +-  0.00% )
+         512989952      branch-misses             #    5.97% of all branches          ( +-  0.00% )
+
+            9.8185 +- 0.0125 seconds time elapsed  ( +-  0.13% )
+
+rm -f tiny_md *.o *.xyz *.dat perf.*
+
+ Performance counter stats for './tiny_md' (30 runs):
+
+           7453.23 msec task-clock                #    0.999 CPUs utilized            ( +-  0.15% )
+               740      context-switches          #    0.099 K/sec                    ( +-  0.20% )
+                 0      cpu-migrations            #    0.000 K/sec                  
+               100      page-faults               #    0.013 K/sec                    ( +-  0.25% )
+       23846924901      cycles                    #    3.200 GHz                      ( +-  0.01% )
+       22067683094      instructions              #    0.93  insn per cycle           ( +-  0.00% )
+        5175920361      branches                  #  694.453 M/sec                    ( +-  0.00% )
+         540958372      branch-misses             #   10.45% of all branches          ( +-  0.01% )
+
+            7.4623 +- 0.0112 seconds time elapsed  ( +-  0.15% )
+
