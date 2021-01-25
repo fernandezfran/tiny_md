@@ -4,6 +4,7 @@ tiny_md
 *.xyz
 *.log
 perf.*
+slurm*
 *.out
 *.txt
 
