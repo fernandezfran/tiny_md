@@ -20,7 +20,7 @@ tiny_md.o: tiny_md.c
 	$(CC) $(CFLAGS) $(PARAMETERS) -c $< 
 
 clean:
-	rm -f $(TARGETS) *.o *.xyz *.dat perf.*
+	rm -f $(TARGETS) *.o *.xyz *.log
 
 .depend: $(SOURCES)
 	$(CC) -MM $^ > $@

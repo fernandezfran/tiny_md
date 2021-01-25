@@ -174,7 +174,7 @@ void velocity_verlet(double *rxyz, double *vxyz, double *fxyz, double *epot,
 int main(){
     FILE *file_xyz, *file_thermo;
     file_xyz = fopen("trajectory.xyz", "w");
-    file_thermo = fopen("thermo.dat", "w");
+    file_thermo = fopen("thermo.log", "w");
     double start = 0.0, elapsed = 0.0;
     double Ekin, Epot, Temp, Pres;       // variables macroscopicas
     double Rho, cell_V, cell_L, tail, Etail, Ptail;
@@ -218,11 +218,12 @@ int main(){
         for (i = 1; i < teq; i++){ // loop de equilibracion
 
             velocity_verlet(rxyz, vxyz, fxyz, &Epot, &Ekin, &Pres, &Temp, Rho, cell_V, cell_L);
-        
+             
             sf = sqrt(T0/Temp);
             for (int k = 0; k < 3*N; k++){ // reescaleo de velocidades
                 vxyz[k] *=sf;
             }
+            
         }
 
         int mes = 0;

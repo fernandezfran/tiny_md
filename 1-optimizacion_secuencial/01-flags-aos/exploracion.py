@@ -15,5 +15,5 @@ for line in fileinput.input():
     os.system('echo "" >> out{:02d}.txt'.format(idx))
 
     # perf stat
-    os.system('sudo perf stat -r 5 ./tiny_md >> out{:02d}.txt'.format(idx))
+    os.system('perf stat -r 30 ./tiny_md >> out{:02d}.txt'.format(idx))
     idx+=1

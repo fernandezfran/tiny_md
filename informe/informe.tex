@@ -8,7 +8,7 @@
 	top=20mm,
 }
 \usepackage[utf8]{inputenc}
-\usepackage{babel}
+\usepackage[spanish]{babel}
 \usepackage{graphicx}
 \graphicspath{ {imagenes/} }
 \usepackage{amsmath}
@@ -19,25 +19,22 @@
 \usepackage[obeyspaces]{url}
 \usepackage{caption}
 \usepackage{subcaption}
-%cambia el nombre de cuadro a tabla...
-\addto\captionsspanish{
-\def\listtablename{\'Indice de tablas}%
-\def\tablename{Tabla}}
+\captionsetup[figure]{name={Figura},labelsep=period}
+%\captionsetup[table]{name={Tabla}}
 \usepackage{multirow}
 \usepackage{textcomp} % ° symbol
 \usepackage{amsmath}
-\usepackage{float}
+\usepackage{float} %
+\usepackage[hidelinks]{hyperref}
 
 
-\title{Trabajo final de Computación paralela}
-
+\title{Trabajo final de Computación paralela: \textit{tiny md}}
+% \footnote no funciona con \maketitle => \thanks
 \author{Francisco Fernández}
-
 \date{\today}
 
 \begin{document}
 
-%\begin{titlepage}
 \maketitle
 
 \
@@ -46,7 +43,8 @@
 
 \begin{abstract}
 
-AGREGAR RESUMEN CUANDO TERMINE
+AGREGAR RESUMEN CUANDO TERMINE\footnote{Directorio de GitHub: \url{https://github.com/fernandezfran/tiny_md}}%
+
 
 \end{abstract}
 
@@ -54,7 +52,7 @@ AGREGAR RESUMEN CUANDO TERMINE
 
 \section{Introducción teórica al problema}
 
-La dinámica molecular (MD, de sus siglas en inglés, Molecular Dynamics) es una técnica de simulación computacional que considera la interacción entre partículas atómicas para obtener una evolución temporal de las mismas. Esto se logra resolviendo numéricamente las ecuaciones de movimiento de Newton. A partir de cantidades microscópicas (posiciones, velocidades, fuerzas) se pueden obtener propiedades termodinámicas macroscópicas del sistema en equilibrio (temperaturas, presión). Esta técnica tiene aplicaciones en muchas áreas del conocimiento, tales como física, química, biofísica, ciencias de los materiales, etc.
+La dinámica molecular (MD, de sus siglas en inglés, Molecular Dynamics) es una técnica de simulación computacional que considera la interacción entre partículas atómicas para obtener una evolución temporal de las mismas. Esto se logra resolviendo numéricamente las ecuaciones de movimiento de Newton. A partir de cantidades microscópicas (posiciones ($x$), velocidades ($v$), fuerzas ($f$)) se pueden obtener propiedades termodinámicas macroscópicas del sistema en equilibrio (temperatura ($T$), presión ($P$)). Esta técnica tiene aplicaciones en muchas áreas del conocimiento, tales como física, química, biofísica, ciencias de los materiales, etc.
 
 \subsection{Programa de MD}
 
@@ -62,7 +60,7 @@ Una descripción simple de un programa de dinámica molecular se introduce a con
 
 \begin{itemize}
  \item \textit{Inicialización del sistema}: se especifican la cantidad de partículas $N$, la temperatura de referencia $T$ y la densidad $\rho$, de donde puede obtenerse el volumen $V$, largo de la caja $L$. Además, se elije $r_{cut}$, el paso temporal $dt$, las posiciones y velocidades iniciales.
- \item \textit{Calculo de fuerzas}: se computan las fuerzas de todas las partículas.
+ \item \textit{Cálculo de fuerzas}: se computan las fuerzas de todas las partículas.
  \item \textit{Integración de las ecuaciones de movimiento}: se integran las ecuaciones de Newton, con algún integrador que a partir de la condición anterior obtiene las posiciones y velocidades del paso temporal siguiente.
  \item \textit{Mediciones}: se realizan cálculos de distintas cantidades de interés (energía potencial, cinética, presión, temperatura).
  \item \textit{Evolución temporal}: $t = t + dt$.
@@ -72,7 +70,7 @@ A continuación se amplia cada una de estas secciones específicamente para el p
 
 \subsubsection{Inicialización del sistema}
 
-En este caso las posiciones se inicializan dentro de una red cristalina $FCC$ y las velocidades se dan aleatoriamente entre $-0.5$ y $0.5$, se las multiplica por un factor que involucra la temperatura y se les resta la velocidad del centro de masa para que el sistema no se esté desplazando.
+En este caso las posiciones se inicializan dentro de una red cristalina $FCC$ y las velocidades se dan aleatoriamente entre $-0.5$ y $0.5$, se les resta la velocidad del centro de masa para que el sistema no se esté desplazando y se las multiplica por un factor que involucra la temperatura.
 
 
 \subsubsection{Condiciones periódicas de contorno e imagen mínima}
@@ -92,9 +90,11 @@ En la figura \ref{fig:pbc} puede verse como se replica una misma celda en todas 
 
 Para el cálculo de las fuerzas se utiliza un potencial aditivo de a pares de Lennard--Jones (12--6), dado por la siguiente expresión,
 $$
-U(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right],
+V_{LJ}(r) = 4\varepsilon \left[ \left( \frac{\sigma}{r} \right)^{12} - \left( \frac{\sigma}{r} \right)^6 \right],
 $$
-por lo cual, antes de calcular las fuerzas, se necesita la distancia entre dos partículas $i$ y $j$, utilizando la regla de la imagen mínima para considerar la distancia a la imagen más cercana, y calculando la fuerza solo si dicha distancia es menor a un radio de corte, $r_{cut}$, de la siguiente forma
+donde $r$ es la distancia entre dos partículas, $\sigma$ es el ``tamaño de la partícula'' y $\varepsilon$ indica que tan profundo es el potencial en el mínimo $r_m = 2^{1/6}\sigma$. La forma funcional se muestra en la figura \ref{fig:lj}, si la distancia entre dos pares de partículas es menor a $r_m$ se repelen, si la distancia es mayor, se atraen, y no interactúan si la distancia es infinita.
+
+Antes de calcular las fuerzas, se necesita la distancia entre dos partículas $i$ y $j$, utilizando la regla de la imagen mínima para considerar la distancia a la imagen más cercana, y calculando la fuerza sólo si dicha distancia es menor a un radio de corte, $r_{cut}$, de la siguiente forma
 $$
 f_x(r) = -\frac{\partial u(r)}{\partial x} = - \left(\frac{x}{r}\right) \left( \frac{\partial u(r)}{\partial r} \right),
 $$
@@ -104,7 +104,14 @@ f_x(r) = \frac{24x}{r^2} \left( \frac{2}{r^{12}} - \frac{1}{r^6} \right)
 $$
 tanto para $x$ como para $y$ y $z$.
 
-Dentro de esta misma sección de código es conveniente calcular la energía potencial y la presión instantáneas. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.7\textwidth]{lj.png}
+	\caption{Gráfico del potencial de Lennard--Jones.}
+	\label{fig:lj}
+\end{figure}
+
+Dentro de esta misma sección de código se calcula la energía potencial y la presión instantáneas. 
 
 \subsubsection{Integración de las ecuaciones de movimiento}
 
@@ -118,7 +125,7 @@ v(t + \Delta t) = v(t) + \frac{f(t + \Delta t) + f(t)}{2m} \Delta t,
 $$
 esto exige calcular las velocidades una vez que se obtuvieron las nuevas posiciones y, a partir de ellas, las nuevas fuerzas.
 
-Aquí es conveniente calcular la energía cinética y la temperatura instantáneas.
+Aquí se calcula la energía cinética y la temperatura instantáneas.
 
 \subsubsection{Mediciones}
 
@@ -144,7 +151,7 @@ $$
 E_{kin} = \frac{1}{2} \sum_{i=1}^N m_i v_i^2,
 $$
 $$
-k_BT = \frac{1}{3N} \sum_{i=1}^{N} v_i^2
+k_BT = \frac{1}{3N} \sum_{i=1}^{N} m_i v_i^2
 $$
 donde $m_i$ es la masa de la partícula $i$
 
@@ -160,8 +167,23 @@ La ecuación de estado relaciona las variables de un sistema bajo ciertas condic
 \end{figure}
 
 
-
 \section{Resultados y discusiones}
+
+\subsection*{Unidades y métrica}
+
+Las unidades en las que se encuentran las cantidades físicas dentro del programa son unidades reducidas de Lennard--Jones. Esto quiere decir que se considera $k_B = 1$, que la masa está medida en unidades de $m$, que la distancia está medida en unidades de $\sigma$ y la energía en unidades de $\varepsilon$. A partir de esto se pueden convertir los valores de todas las propiedades físicas, por ejemplo, $T^* = k_BT/\varepsilon$ y $t^* = t \sqrt{\varepsilon/m\sigma^2}$, donde $*$ como superíndice quiere decir que es la forma reducida.
+
+Una métrica usual de dinámica molecular es $ns/day$, es decir, cuántos nanosegundos evoluciona el sistema en un día de simulación. Esta métrica está implementada en el código pero depende del tamaño del problema. En algunas gráficos se presenta la misma y en otras el tiempo total de simulación.
+
+\subsection*{perf}
+
+En la figura \ref{fig:perf-report} se muestra lo obtenido al realizar \path{perf record ./tiny_md && perf report}. Más del 95\% del tiempo se computo se consume en las funciones \path{forces} y \path{pbc} (que es llamaba por \path{forces} y \path{velocity_verlet}), así que estas son las secciones de código en las que se necesitan hacer optimizaciones.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.7\textwidth]{perf-report.png}
+	\caption{Porcentaje del tiempo simulado en las funciones del código.}
+	\label{fig:perf-report}
+\end{figure}
 
 \subsection{Optimizaciones secuenciales}
 

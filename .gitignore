@@ -2,7 +2,9 @@
 tiny_md
 *.o
 *.xyz
-*.dat
+*.log
+*.perf
+*.txt
 
 informe/imagenes/
 informe/*.aux

@@ -3,7 +3,7 @@
 ### Configuración del trabajo
 
 ### Nombre de la tarea
-#SBATCH --job-name=flags-md
+#SBATCH --job-name=md-mixed
 
 ### Cantidad de nodos a usar
 #SBATCH --nodes=1
