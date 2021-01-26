@@ -8,7 +8,7 @@
 	top=20mm,
 }
 \usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
+\usepackage[spanish,es-tabla]{babel}
 \usepackage{graphicx}
 \graphicspath{ {imagenes/} }
 \usepackage{amsmath}
@@ -22,15 +22,17 @@
 \captionsetup[figure]{name={Figura},labelsep=period}
 %\captionsetup[table]{name={Tabla}}
 \usepackage{multirow}
+\usepackage{multicol}
 \usepackage{textcomp} % ° symbol
 \usepackage{amsmath}
 \usepackage{float} %
 \usepackage[hidelinks]{hyperref}
+\usepackage[title]{appendix}
 
 
 \title{Trabajo final de Computación paralela: \textit{tiny md}}
 % \footnote no funciona con \maketitle => \thanks
-\author{Francisco Fernández}
+\author{Francisco Fernández \\ \small{email: \href{mailto:ffernandez@famaf.unc.edu.ar}{ffernandez@famaf.unc.edu.ar}}}
 \date{\today}
 
 \begin{document}
@@ -187,8 +189,76 @@ En la figura \ref{fig:perf-report} se muestra lo obtenido al realizar \path{perf
 
 \subsection{Optimizaciones secuenciales}
 
+\subsubsection*{AoS}
+
+Inicialmente en el código las posiciones, velocidades y fuerzas se almacenan en memoria de la forma \textit{Array of Structure}. En el vector de las posiciones (velocidades o fuerzas) se tienen almacenadas en memoria las coordenadas de la misma partícula de forma consecutiva, es decir que, si se lo piensa como matriz, las coordenadas de cada una de las direcciones se encuentran en columnas.
+
+\subsubsection*{SoA}
+
+Esta otra implementación del código cambia la forma del almacenamiento en memoria, aquí como \textit{Structure of Array}. En el vector de las posiciones se tiene primero las coordenadas $x$ de todas las partículas, luego las $y$ y luego las $z$, es decir, que en forma de matriz las coordenadas de cada una de las direcciones están almacenadas en filas.
+
+\subsubsection*{Mixed precision}
+
+En este otro caso en vez de usar \path{double} para los vectores de las posiciones, velocidades y fuerzas, se utilizan \path{float}.
+
+\
+
+En esta parte del trabajo se realizó una exploración con los distintos flags de optimización que se encuentran listados en la tabla \ref{tab:os-flags} del compilador \path{gcc}. Las mediciones se realizaron en \path{zx81}\footnote{ver Apéndice \ref{app:zx81}} utilizando \path{SLURM}, \textit{script} de \path{python3} y \path{perf stat}. Los resultados obtenidos se muestran en la figura \ref{fig:os-nsday}, donde se gráfica los ns/day en función de los distintos flags de optimización para las tres versiones del programa explicadas anteriormente.
+
+La tendencia que se observa en la figura \ref{fig:os-nsday} es que para la versión SoA se obtienen mejores resultados que para la AoS y que la versión mixed precision tiene menor performance que las otras dos. Para los tres casos puede afirmarse, debido a que las barras de error son menores al tamaño de los puntos, que la combinación de flags que mejor resultados da es \path{-O3 -funroll-loops -ffast-math -march=native}. De la cual se obtiene $(1.60 \pm 0.02)\ ns/day$ para la versión SoA. Inicialmente se tenía $(0.500 \pm 0.003)\ ns/day$, lo que da un speed-up de 3.2x.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{1-o_s-nsday.png}
+	\caption{Métrica $ns/day$ para los distintos flags de optimización listados en la tabla \ref{tab:os-flags}. Para la obtención de cada punto se realizaron 30 mediciones y el número de partículas fue $N = 256$. Las barras de error en cada punto son menores que el tamaño del mismo.}
+	\label{fig:os-nsday}
+\end{figure}
+\begin{table}[h]
+	\centering
+	\caption{Flags de optimización utilizados en el siguiente orden para la obtención de los datos presentados en la figura \ref{fig:os-nsday}.}
+	\label{tab:os-flags}
+	\begin{tabular}{|r|c|}
+		\hline
+	       & flag \\ \hline
+		 0 & -O0  \\
+		 1 & -O1  \\
+		 2 & -Os  \\
+		 3 & -O2  \\
+		 4 & -O3  \\
+		 5 & -Ofast \\
+		 6 & -O1 -funroll-loops \\
+		 7 & -O3 -funroll-loops \\
+		 8 & -O1 -ffast-math \\
+		 9 & -O3 -ffast-math \\
+		10 & -O1 -funroll-loops -march=native \\
+		11 & -O3 -funroll-loops -march=native \\
+		12 & -O1 -ffast-math -march=native \\
+		13 & -O3 -ffast-math -march=native \\
+		14 & -O1 -funroll-loops -ffast-math -march=native \\
+		15 & -O3 -funroll-loops -ffast-math -march=native \\
+		16 & -O1 -floop-block -floop-interchange \\
+		17 & -O3 -floop-block -floop-interchange \\
+		18 & -O1 -funroll-loops -floop-block -floop-interchange -march=native \\
+		19 & -O3 -funroll-loops -floop-block -floop-interchange -march=native \\ \hline
+	\end{tabular}
+\end{table}
+
+
 \subsection{Vectorización}
 
-\subsection{OpenMP}
+\subsubsection*{Autovectorización}
+
+\subsubsection*{SSE}
+
+\subsection{Paralelización: OpenMP}
+
+\clearpage
+\pagebreak
+
+\begin{appendices}
+	\section{zx81}\label{app:zx81}
+	Características de \path{zx81}.
+\end{appendices}
+
 
 \end{document}

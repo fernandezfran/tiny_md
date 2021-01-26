@@ -14,7 +14,7 @@ Proyecto de speed-up de un código de Dinámica Molecualar NVT (reescaleo de vel
 
         cambio el orden de almacenamiento de los datos en los vectores, en vez de guardar x, y, z (para pos, vel y frc) consecutivos los separo en vectores de largo N (es decir, es equivalente a tener una matriz 3xN, donde en la fila 1 está x, en la 2 y, en la 3 z).
 
-        (es decir, antes de tenía SoA, ahora AoS).
+        (es decir, antes de tenía AoS, ahora SoA).
 
     3. 03-mixed-precision/
 
