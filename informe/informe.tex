@@ -249,20 +249,24 @@ La tendencia que se observa en la figura \ref{fig:os-nsday} es que para la versi
 
 \subsubsection*{Autovectorización}
 
+Se utilizó el flag de autovectorización, \path{-ftree-vectorize}, en la misma búsqueda de la tabla \ref{tab:os-flags}. Además de las versiones AoS y SoA, se agregó una versión \textit{Naive--loops}, a partir de la versión SoA, en la cual se juntan las operaciones que se hacen en $x$, $y$, $z$ dentro de un loop que va de $0$ a $2$, en todas las partes del código en las que fue posible. Se presentan los datos obtenidos para la mejor combinación de flags en la tabla \ref{tab:autovec}. Tanto para AoS como para SoA la mejor combinación sigue siendo la encontrada anteriorment, para \textit{Naive--loops} se obtuvo que la mejor es \path{-O1 -funroll-loops -ffast-math -march=native -ftree-vectorize}, que da, comparando con el proyecto inicial, un speed-up de 3.46x.
+
 \begin{table}[h]
 	\centering
-	\caption{.}
+	\caption{Resultados de la autovectorización en ns/day, se realizaron 10 mediciones para dar cada uno de los valores.}
 	\label{tab:autovec}
-	\begin{tabular}{|l|c|c|}
+	\begin{tabular}{|l|c|}
 		\hline
-	            	& tiempo de simulación [s] & ns/day           \\
+	    versión  	& ns/day           \\
 	    \hline
-		AoS         & $5.99  \pm 0.01$         & $1.56 \pm 0.02$  \\ 
-		SoA         & $5.854 \pm 0.007$        & $1.59 \pm 0.01$  \\
-		naive loops & $5.670 \pm 0.008$        & $1.65 \pm 0.01$  \\
+		AoS         & $1.55 \pm 0.02$  \\ 
+		SoA         & $1.577 \pm 0.004$  \\
+		naive loops & $1.73 \pm 0.01$  \\
 		\hline
 	\end{tabular}
 \end{table}
+
+Utilizando el flag de compilación \path{-fopt-info-vec-optimized} se ve que tanto para AoS como para SoA los loops autovectorizados son básicamente los mismos, parte de la inicialización de las velocidades, el reescaleo de las mismas y \path{velocity_verlet}. Como se aprecia en los datos mostrados en la tabla \ref{tab:autovec}, estas optimizaciones no son significativas en la simulación con respecto al laboratorio anterior. Por otro lado, en la versión \textit{Naive--loops} no se optimiza \path{velocity_verlet} pero sí \path{pbc} y parte de \path{forces} (el loop más interno y el cálculo de la distancia, pero no el de la fuerza y el cargado de estos datos al vector).
 
 \subsubsection*{SSE}
 

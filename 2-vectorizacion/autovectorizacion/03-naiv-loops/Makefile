@@ -1,7 +1,7 @@
 include in.parameters
 
 CC       = gcc
-CFLAGS	 = -O3 -funroll-loops -ffast-math -march=native -ftree-vectorize -fopt-info-vec-optimized
+CFLAGS	 = -O1 -funroll-loops -ffast-math -march=native -ftree-vectorize -fopt-info-vec-optimized
 WFLAGS	 = -std=gnu99 -Wall -Wextra -g
 LDFLAGS	 = -lm -lgomp
 
