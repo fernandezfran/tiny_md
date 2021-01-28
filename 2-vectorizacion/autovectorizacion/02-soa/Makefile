@@ -1,7 +1,7 @@
 include in.parameters
 
 CC       = gcc
-CFLAGS	 = -O3 -ffast-math -march=native -ftree-vectorize -fopt-info-vec-optimized 
+CFLAGS	 = -O3 -funroll-loops -ffast-math -march=native -ftree-vectorize -fopt-info-vec-optimized
 WFLAGS	 = -std=gnu99 -Wall -Wextra -g
 LDFLAGS	 = -lm -lgomp
 
@@ -21,7 +21,7 @@ tiny_md.o: tiny_md.c
 	$(CC) $(WFLAGS) $(CFLAGS) $(PARAMETERS) -c $< 
 
 clean:
-	rm -f $(TARGETS) *.o *.xyz *.dat perf.*
+	rm -f $(TARGETS) *.o *.xyz *.log
 
 .depend: $(SOURCES)
 	$(CC) -MM $^ > $@

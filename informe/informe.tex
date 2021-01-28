@@ -239,7 +239,8 @@ La tendencia que se observa en la figura \ref{fig:os-nsday} es que para la versi
 		16 & -O1 -floop-block -floop-interchange \\
 		17 & -O3 -floop-block -floop-interchange \\
 		18 & -O1 -funroll-loops -floop-block -floop-interchange -march=native \\
-		19 & -O3 -funroll-loops -floop-block -floop-interchange -march=native \\ \hline
+		19 & -O3 -funroll-loops -floop-block -floop-interchange -march=native \\
+		\hline
 	\end{tabular}
 \end{table}
 
@@ -247,6 +248,21 @@ La tendencia que se observa en la figura \ref{fig:os-nsday} es que para la versi
 \subsection{Vectorización}
 
 \subsubsection*{Autovectorización}
+
+\begin{table}[h]
+	\centering
+	\caption{.}
+	\label{tab:autovec}
+	\begin{tabular}{|l|c|c|}
+		\hline
+	            	& tiempo de simulación [s] & ns/day           \\
+	    \hline
+		AoS         & $5.99  \pm 0.01$         & $1.56 \pm 0.02$  \\ 
+		SoA         & $5.854 \pm 0.007$        & $1.59 \pm 0.01$  \\
+		naive loops & $5.670 \pm 0.008$        & $1.65 \pm 0.01$  \\
+		\hline
+	\end{tabular}
+\end{table}
 
 \subsubsection*{SSE}
 

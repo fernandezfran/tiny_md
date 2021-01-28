@@ -156,7 +156,7 @@ void velocity_verlet(double *rxyz, double *vxyz, double *fxyz, double *epot,
 int main(){
     FILE *file_xyz, *file_thermo;
     file_xyz = fopen("trajectory.xyz", "w");
-    file_thermo = fopen("thermo.dat", "w");
+    file_thermo = fopen("thermo.log", "w");
     double start = 0.0, elapsed = 0.0;
     double Ekin, Epot, Temp, Pres;       // variables macroscopicas
     double Rho, cell_V, cell_L, tail, Etail, Ptail;
