@@ -29,3 +29,7 @@ Proyecto de speed-up de un código de Dinámica Molecualar NVT (reescaleo de vel
     2. sse/
 
         vectorización del cálculo de fuerzas con sse (empezado, falta).
+
+* 3-OpenMP/
+    
+    Eso. OpenMP.
