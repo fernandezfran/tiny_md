@@ -1,7 +1,8 @@
 include in.parameters
 
 CC       = gcc
-CFLAGS	 = -O2 -funroll-loops -ffast-math -march=native -ftree-vectorize -fopt-info-vec-optimized -fopenmp
+CFLAGS	 = -O2 -funroll-loops -ffast-math -march=native -ftree-vectorize \
+		   -fopt-info-vec-optimized -fopenmp
 WFLAGS	 = -std=gnu99 -Wall -Wextra -g
 LDFLAGS	 = -lm -lgomp
 

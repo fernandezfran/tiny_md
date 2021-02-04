@@ -30,7 +30,7 @@
 \usepackage[title]{appendix}
 
 
-\title{Trabajo final de Computación paralela: \textit{tiny md}}
+\title{Trabajo final de Computación paralela: \textit{tiny molecular dynamics}}
 % \footnote no funciona con \maketitle => \thanks
 \author{Francisco Fernández \\ \small{email: \href{mailto:ffernandez@famaf.unc.edu.ar}{ffernandez@famaf.unc.edu.ar}}}
 \date{\today}
@@ -271,6 +271,13 @@ Utilizando el flag de compilación \path{-fopt-info-vec-optimized} se ve que tan
 \subsubsection*{SSE}
 
 \subsection{Paralelización: OpenMP}
+
+Al computar las fuerzas en cualquiera de las versiones secuenciales del programa, se utiliza que la fuerza que siente la partícula $i$ por causa de la partícula $j$ es igual, pero con signo opuesto, a la que siente la partícula $j$ por la $i$. Es decir, no es necesario recorrer la matriz completa, si no que se recorre la triangular superior (o inferior) y con eso alcanza para completar la otra parte.
+
+En el caso paralelo, al igual que en la vectorización, sólo se pueden cargar a los vectores los valores de las fuerzas de las partículas $i$ que se están recorriendo en el hilo correspondiente, ya que el resto de la matriz está en el resto de los hilos. Por lo cual en la versión paralela se realiza el doble de operaciones que en la secuencial.
+
+En la sección del código que calcula las fuerzas se realizó un schedule manual por hilo y se colocó el decorador \path{#pragma omp parallel} declarando las variables compartidas por default y especificando cuales son las privadas del hilo (que se declararon antes del decorador). Además se agregó \path{reduction(+:pot,pres_vir)} para realizar la suma paralela de la energía potencial y del virial de la presión.
+
 
 \clearpage
 \pagebreak
