@@ -10,6 +10,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish,es-tabla]{babel}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \graphicspath{ {imagenes/} }
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -269,6 +271,8 @@ Se utilizó el flag de autovectorización, \path{-ftree-vectorize}, en la misma 
 Utilizando el flag de compilación \path{-fopt-info-vec-optimized} se ve que tanto para AoS como para SoA los loops autovectorizados son básicamente los mismos, parte de la inicialización de las velocidades, el reescaleo de las mismas y \path{velocity_verlet}. Como se aprecia en los datos mostrados en la tabla \ref{tab:autovec}, estas optimizaciones no son significativas en la simulación con respecto al laboratorio anterior. Por otro lado, en la versión \textit{Naive--loops} no se optimiza \path{velocity_verlet} pero sí \path{pbc} y parte de \path{forces} (el loop más interno y el cálculo de la distancia, pero no el de la fuerza y el cargado de estos datos al vector).
 
 \subsubsection*{SSE}
+No me estaría saliendo la condición del if en el computo de las fuerzas...
+
 
 \subsection{Paralelización: OpenMP}
 
@@ -278,13 +282,58 @@ En el caso paralelo, al igual que en la vectorización, sólo se pueden cargar a
 
 En la sección del código que calcula las fuerzas se realizó un schedule manual por hilo y se colocó el decorador \path{#pragma omp parallel} declarando las variables compartidas por default y especificando cuales son las privadas del hilo (que se declararon antes del decorador). Además se agregó \path{reduction(+:pot,pres_vir)} para realizar la suma paralela de la energía potencial y del virial de la presión.
 
+La métrica utilizada hasta ahora (ns/day) es la usual en dinámica molecular, pero es dependiente del tamaño del problema. Por eso, para comparar distintos tamaños en función de la cantidad de hilos en OpenMP, se opta por presentar, el tiempo de simulación, el speed-up, definido como
+$$
+S = \frac{tiempo\ original}{tiempo\ nuevo},
+$$
+y la eficiencia,
+$$
+E = \frac{S}{N},
+$$
+donde $N$ es el número de hilos.
+
+En la figura \ref{fig:omp-tiempo} se muestran los resultados obtenidos para el tiempo de simulación en función de la cantidad de hilos de OpenMP para distinta cantidad de partículas. Los resultados fueron obtenidos utilizando \path{OMP_PROC_BIND=ture OMP_NUM_TRHEADS=i perf stat -r 10 ./tiny_md}, donde la primera opción hace que los hilos de OpenMP queden fijos en un sólo hilo físico y la segunda opción va variando la cantidad de hilos $i$ que se toman. Se optó por bajar la cantidad de mediciones con respecto a las mediciones anteriores para obtener resultados para problemas más grandes en un tiempo de cómputo razonable.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{3-omp-tiempo.png}
+	\caption{Tiempo de simulación en función de la cantidad de hilos de OpenMP para distintos tamaños del problema.}\label{fig:omp-tiempo}
+\end{figure}
+La tendencia es la esperada, a mayor cantidad de hilos se tiene que el problema corre más rápido y que, por ejemplo, utilizando 8 hilos se puede correr un problema de $N = 2048$ a la misma velocidad que se correría en un sólo hilo un problema de $N = 1372$, que es un poco más que la mitad de la cantidad de partículas.
+
+También se presenta el speed-up en función de la cantidad de hilos en la figurad \ref{fig:omp-speedup}, calculado a partir de los datos presentados.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{3-omp-speedup.png}
+	\caption{Speed up en función de la cantidad de hilos de OpenMP para distintos tamaños del problema.}\label{fig:omp-speedup}
+\end{figure}
+Para un tamaño muy chico del problema ($N=256$) se ve como el speed up aumenta de manera lineal sólo hasta $14$ hilos, que es donde termina un \textit{numa node} y luego empieza el otro y ya no es conveniente seguir agregando hilos, ya que el speed up empieza a disminuir. Para un tamaño de problema chico ($N=500$) se tiene que el speed up es siempre creciente, pero la pendiente es mayor en los primeros $14$ hilos que en los siguientes. Este efecto que ocurre a partir del hilo número $15$ se debe a la comunicación entre los hilos a través del nodo debido a la suma realizada con \path{reduction}. Para un tamaños medianos del problema ($N=864$ y $N=1372$) este efecto es menos notable ya que cada hilo empieza a tener más partículas que computar. Finalmente, para un tamaño grande ($N = 2048$), se tiene que el speed up es lineal, salvo por el último punto que decae cuando todos los hilos están prendidos.
+
+Por último, se muestra la eficiencia en función de la cantidad de hilos de OpenMP para distintos tamaños del problema en la figura \ref{fig:omp-eficiencia}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\textwidth]{3-omp-eficiencia.png}
+	\caption{Eficiencia en función de la cantidad de hilos de OpenMP para distintos tamaños del problema.}\label{fig:omp-eficiencia}
+\end{figure}
+Se observa que para $N = 2048$ la eficiencia se mantiene entre un $80$\% y un $90$\%, exceptuando el último punto, cuando se toman más de cinco hilos, y cuando se tiene menos cantidad, la eficiencia está más cerca del $100$ \%, aunque lo que se gana en tiempo de simulación no es demasiado (como puede observarse en la figura \ref{fig:omp-tiempo}). Para el resto de los casos se ve como la eficiencia decae hasta un $70$-$80$\%, hasta el \textit{numa node}. Después del hilo número $15$, para $N = 1372$, la eficiencia se mantiene al rededor del $70$\%, mientras que para $N = 864$ decae del $70$\% al $60$\%. Para $N=500$ la eficiencia decae del $60$\% al $50$\% y para $N=256$ se pierde rápidamente, encontrándose por debajo del $50$\% y llegando a ser cercana al $20$\%.
 
 \clearpage
 \pagebreak
 
 \begin{appendices}
 	\section{zx81}\label{app:zx81}
-	Características de \path{zx81}.
+	Características de \path{zx81}:
+	\begin{itemize}
+		\item Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.4GHz.
+		\item Memoria cache:
+		\begin{itemize}
+			\item L1d: 896 KiB
+			\item L1i: 896 KiB
+			\item L2: 7 MB
+			\item L3: 70 MB
+		\end{itemize}
+		\item 128 GiB de RAM DDR4.
+		\item Debian 5.10.9-1 (2021-01-20) x86\_64 (GNU/Linux).
+	\end{itemize}
 \end{appendices}
 
 

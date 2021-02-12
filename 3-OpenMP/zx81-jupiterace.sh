@@ -3,7 +3,7 @@
 ### Configuración del trabajo
 
 ### Nombre de la tarea
-#SBATCH --job-name=omp256
+#SBATCH --job-name=omp864
 
 ### Cantidad de nodos a usar
 #SBATCH --nodes=1
@@ -17,10 +17,10 @@
 #SBATCH --exclusive
 #---------------------------------------------------------------------------------
 make clean
-make N=256 > out0256.txt
+make N=1372 > out1372bind.txt
 for i in {1..28}
 do
-    echo "threads: ${i}" >> out0256.txt
-    #OMP_PROC_BIND=true OMP_NUM_THREADS=$i perf stat -r 30 ./tiny_md >> out0256.txt
-    OMP_NUM_THREADS=$i perf stat -r 30 ./tiny_md >> out0256.txt
+    echo "threads: ${i}" >> out1372bind.txt
+    OMP_PROC_BIND=true OMP_NUM_THREADS=$i perf stat -r 10 ./tiny_md >> out1372bind.txt
+    #OMP_NUM_THREADS=$i perf stat -r 10 ./tiny_md >> out0500.txt
 done

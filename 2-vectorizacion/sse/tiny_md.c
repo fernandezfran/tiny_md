@@ -93,8 +93,7 @@ void forces(const double *rxyz, double *fxyz, double *epot, double *pres,
     __m128d vir = a0;
     __m128d mask;
 
-    for (int i = 0; i < N; i++){ // N multiplo de 2; hay otro i++ abajo
-                                 // para ver el lim de la matriz con j
+    for (int i = 0; i < N; i++){
 
         // inicializo fuerzas a 0 de c/ part
         __m128d fxi = a0;
@@ -105,10 +104,10 @@ void forces(const double *rxyz, double *fxyz, double *epot, double *pres,
         __m128d yipd = _mm_loadu_pd(&rxyz[  N + i]);
         __m128d zipd = _mm_loadu_pd(&rxyz[2*N + i]);
     
-        for (int j = 0; j < N-1; j++){ // j = N-1 con i2 abajo en secuencial
+        for (int j = 0; j < N; j+=2){
 
-            // esta no es la forma optima de hacerlo, en realidad hace falta
-            // leer los 64 bits de la derecha y conservar los últimos 64 anteriores 
+            if (i == j) continue;
+            
             __m128d xjpd = _mm_loadu_pd(&rxyz[      j]);
             __m128d yjpd = _mm_loadu_pd(&rxyz[  N + j]);
             __m128d zjpd = _mm_loadu_pd(&rxyz[2*N + j]);
@@ -145,10 +144,8 @@ void forces(const double *rxyz, double *fxyz, double *epot, double *pres,
             // double rij2 = rx*rx + ry*ry + rz*rz;
             __m128d rij2 = _mm_add_pd(_mm_add_pd(_mm_mul_pd(rx, rx),
                                                  _mm_mul_pd(ry, ry)),
-                                      _mm_mul_pd(rz, rz));
+                                     _mm_mul_pd(rz, rz));
 
-            // y si i = j (es decir rij2 ~ \eps_M), no calcular esos 64 bits
-            // o sea, este if sería: rij2 != 0 || rij2 <= rcut2 
             if (rij2 <= rcut2){ // no sé como hacer este if
                 //double r2inv = 1.0/rij2;
                 __m128d r2inv = _mm_div_pd(a1, rij2);
@@ -179,13 +176,10 @@ void forces(const double *rxyz, double *fxyz, double *epot, double *pres,
         _mm_storeu_pd(&fxyz[      i], fxi);
         _mm_storeu_pd(&fxyz[  N + i], fyi);
         _mm_storeu_pd(&fxyz[2*N + i], fzi);
-        i++;
-        j=N-1;
-        // calculo secuencial de esta fuerza
     }
-    //    *epot = 0.5*pot;
-    //    *pres = vir/(3.0 * V);
-    //   *pres += *temp * rho;
+    *epot = 0.5*pot;
+    *pres = vir/(3.0 * V);
+    *pres += *temp * rho;
 }
 
 
