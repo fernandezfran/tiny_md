@@ -1,35 +1,32 @@
-Proyecto de speed-up de un código de Dinámica Molecualar NVT (reescaleo de velocidades) para un fluido de Lennard-Jones como parte del curso "Computación Paralela 2020" (https://cs.famaf.unc.edu.ar/~nicolasw/Docencia/CP/2020/index.html)
+# tiny_md
 
-* 0-proyecto_inical/
+> _tiny molecular dynamics_
+>
+> > trabajo final de computación paralela 2020 (curso de posgrado - FaMAF, UNC) 
 
-    código inicial con Makefile y parámetros de entrada (flags gcc = https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html)
+Proyecto de speed-up de un código de Dinámica Molecular con un potencial interatómico de Lennard-Jones. En el directorio `proyecto/` se encuentra el desarrollo del trabajo, para más información ver `doc/informe.pdf`.
 
-* 1-optimizacion_secuencial
 
-    1. 01-flags-aos/
+### Requisitos
 
-        exploración de flags sin realizar ningún cambio en el proyecto inicial
+Para compilar es necesario tener instalado `gcc`, `OpenMP` y `OpenGL`.
 
-    2. 02-flags-soa/
 
-        cambio el orden de almacenamiento de los datos en los vectores, en vez de guardar x, y, z (para pos, vel y frc) consecutivos los separo en vectores de largo N (es decir, es equivalente a tener una matriz 3xN, donde en la fila 1 está x, en la 2 y, en la 3 z).
+### Compilación
 
-        (es decir, antes de tenía AoS, ahora SoA).
+Para correr la versión final del trabajo es necesario compilar utilizando `Makefile` en el directorio `src/`:
+```bash
+cd src/
+make clean
+make
+```
+donde `make clean` elimina los objetos compilados anteriormente y `make` compila dos ejecutables: `tiny_md` y `tiny_md_viz`, el segundo posee una visualización en tiempo real.
 
-    3. 03-mixed-precision/
+> Nota:
+>
+> > _Si se desean cambiar parámetros de entrada de la simulación, puede modificarse el archivo _`src/in.parameters`_ y recompilar o pasar los valores deseados como argumento a _`make`_; por ejemplo, _`make N=1372`_ cambia la cantidad de partículas que se simulan._
 
-        veo si en algún lugar puedo mezclar precisiones, usar float en vez de double
 
-* 2-vectorizacion/
- 
-    1. autovectorizacion/
+### Ejecución
 
-        ¿qué loops autovectoriza gcc de acuerdo a si tengo SoA o AoS? ¿ayuda agregar loops naiv?
-
-    2. sse/
-
-        vectorización del cálculo de fuerzas con sse (empezado, falta).
-
-* 3-OpenMP/
-    
-    Eso. OpenMP.
+Previo a la ejecución de `tiny_md` o `tiny_md_viz` puede configurarse OpenMP usando, por ejemplo, `OMP_PROC_BIND=true` y `OMP_NUM_THREADS=$i`, donde `$i` es la cantidad de hilos en los que se quiere correr.

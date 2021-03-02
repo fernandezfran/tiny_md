@@ -7,9 +7,7 @@ perf.*
 slurm*
 *.out
 *.txt
+*.aux
+*.gz
 
-informe/imagenes/
-informe/*.aux
-informe/*.out
-informe/*.log
-informe/*.gz
+proyecto/informe/imagenes/
