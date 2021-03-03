@@ -7,17 +7,17 @@ LDFLAGS	 = -lm -lgomp
 PARAMETERS	= -DN=$(N) -DSEED=$(SEED) -DT0=$(T0) -DRhoi=$(Rhoi) -Drcut=$(rcut) \
 			  -Ddt=$(dt) -Dteq=$(teq) -Dtrun=$(trun) -Dtmes=$(tmes) \
 
-TARGETS		= tiny_md
+TARGETS		= tiny_md viz
 SOURCES		= $(shell echo *.c)
-OBJECTS     = 
+OBJECTS     = core.o 
 
 all: $(TARGETS)
 
-tiny_md: tiny_md.o
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+viz: viz.o $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) -lGL -lGLU -lglut
 
-tiny_md.o: tiny_md.c
-	$(CC) $(CFLAGS) $(PARAMETERS) -c $< 
+tiny_md: tiny_md.o $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
 	rm -f $(TARGETS) *.o *.xyz *.log

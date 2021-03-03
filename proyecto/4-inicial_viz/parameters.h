@@ -10,8 +10,8 @@
  *
  */
 
-#ifndef TINY_MD_H
-#define TINY_MD_H
+#ifndef PARAMETERS_H
+#define PARAMETERS_H
 
 #include <stdio.h>  // printf(), fprintf()
 #include <math.h>   // sqrt(), cbrt(), pow(), M_PI, ...

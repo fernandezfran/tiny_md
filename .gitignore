@@ -1,5 +1,6 @@
 .depend
 tiny_md
+viz
 *.o
 *.xyz
 *.log

@@ -16,3 +16,20 @@
 # Tiempo total de simulación = 3.156715 segundos
 # Tiempo simulado = 108.000000 [fs]
 # ns/day = 2.955984
+#
+############################################################
+#
+# GNUplot script > eos: P vs rho
+#
+#set encoding utf8
+#
+#set xlabel "{/Symbol r}"
+#set ylabel "P"
+#set key l t
+#
+#p 'eos.dat' u 1:4 w lp dt 2 pt 7 noti
+#
+#set terminal pngcairo color
+#set output "eos.png"
+#rep
+#set terminal qt
