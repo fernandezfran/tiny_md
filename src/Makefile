@@ -10,15 +10,15 @@ PARAMETERS	= -DN=$(N) -DSEED=$(SEED) -DT0=$(T0) -DRhoi=$(Rhoi) -Drcut=$(rcut) \
 
 TARGETS		= tiny_md
 SOURCES		= $(shell echo *.c)
-OBJECTS     = 
+OBJECTS     = init.o lj_force.o verlet.o pbc.o rescale.o md_step.o
 
 all: $(TARGETS)
 
-tiny_md: tiny_md.o
+tiny_md: tiny_md.o $(OBJECTS)
 	$(CC) $(WFLAGS) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-tiny_md.o: tiny_md.c
-	$(CC) $(WFLAGS) $(CFLAGS) $(PARAMETERS) -c $< 
+%.o: %.c
+	$(CC) $(WFLAGS) $(CFLAGS) $(PARAMETERS) -c $<
 
 clean:
 	rm -f $(TARGETS) *.o *.xyz *.log

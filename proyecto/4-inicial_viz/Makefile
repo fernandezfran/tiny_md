@@ -19,6 +19,9 @@ viz: viz.o $(OBJECTS)
 tiny_md: tiny_md.o $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
+%.o: %.c
+	$(CC) $(WFLAGS) $(CFLAGS) $(PARAMETERS) -c $<
+
 clean:
 	rm -f $(TARGETS) *.o *.xyz *.log
 
