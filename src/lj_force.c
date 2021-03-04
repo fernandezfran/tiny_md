@@ -1,7 +1,7 @@
 #include "parameters.h"
 #include "lj_force.h"
 
-#include <omp.h>    // omp_get_wtime()
+#include <omp.h>    // #pragma omp parallel
 #include <math.h>
 
 static double minimum_image(double cordi, const double box_size){ 

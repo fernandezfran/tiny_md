@@ -1,22 +1,22 @@
-#include <GL/glut.h>    // OpenGL
-
 #include "parameters.h"
 #include "init.h"
 #include "lj_force.h"
 #include "md_step.h"
 
-#include <stdio.h>  // printf(), fprintf()
-#include <math.h>   // sqrt(), cbrt(), pow(), M_PI
-#include <stdlib.h> // rand()
-#include <time.h>   // time(NULL)
-#include <omp.h>    // omp_get_wtime()
+#include <GL/glut.h>    // OpenGL
+#include <stdio.h>      // printf(), fprintf()
+#include <math.h>       // sqrt(), cbrt(), pow(), M_PI
+#include <stdlib.h>     // rand()
+#include <time.h>       // time(NULL)
+#include <omp.h>        // omp_get_wtime()
 
 // variables globales
 static double Ekin, Epot, Temp, Pres;       // variables macroscopicas
 static double Rho, V, box_size, tail, Etail, Ptail;
 static double *rxyz, *vxyz, *fxyz;          // variables microscopicas
 static double Rhob, sf, epotm, presm;
-static int switcher = 0, frames = 0, mes;
+static int switcher = 0, mes;
+static long int frames = 0;
 
 
 // OpenGL specific drawing routines 
@@ -27,17 +27,17 @@ static int win_x = 600, win_y = 600;
 
 
 static void pre_display ( void ){
-	glViewport ( 0, 0, win_x, win_y );
-	glMatrixMode ( GL_PROJECTION );
-	glLoadIdentity ();
-	gluOrtho2D ( 0.0, 1.0, 0.0, 1.0 );
-	glClearColor ( 0.0f, 0.0f, 0.0f, 1.0f );
-	glClear ( GL_COLOR_BUFFER_BIT );
+    glViewport ( 0, 0, win_x, win_y );
+    glMatrixMode ( GL_PROJECTION );
+    glLoadIdentity ();
+    gluOrtho2D ( 0.0, 1.0, 0.0, 1.0 );
+    glClearColor ( 0.0f, 0.0f, 0.0f, 1.0f );
+    glClear ( GL_COLOR_BUFFER_BIT );
 }
 
 
 static void post_display ( void ){
-	glutSwapBuffers ();
+    glutSwapBuffers ();
 }
 
 
@@ -70,11 +70,11 @@ static void draw_atoms ( void ){
 
 static void reshape_func ( int width, int height )
 {
-	glutSetWindow ( win_id );
-	glutReshapeWindow ( width, height );
+    glutSetWindow ( win_id );
+    glutReshapeWindow ( width, height );
 
-	win_x = width;
-	win_y = height;
+    win_x = width;
+    win_y = height;
 }
 
 
@@ -120,6 +120,8 @@ static void idle_func ( void ){
         switcher = 0;
         if (fabs(Rho - (Rhoi - 0.9f)) < 1e-6){
             printf("\n");
+            printf("reinicio la simulación\n");
+            printf("\n");
             switcher = 3;
         }
 
@@ -130,12 +132,9 @@ static void idle_func ( void ){
             md_step(rxyz, vxyz, fxyz, &Epot, &Ekin, &Pres, &Temp, Rho, V, box_size);
         
         }
-        
-        Epot += Etail;
-        Pres += Ptail;
 
-        epotm += Epot;
-        presm += Pres;
+        epotm += Epot + Etail;
+        presm += Pres + Ptail;
         mes++;
 
         frames += tmes;
@@ -156,16 +155,16 @@ static void idle_func ( void ){
 
         switcher = 1;
     }
-	glutSetWindow ( win_id );
-	glutPostRedisplay ();
+    glutSetWindow ( win_id );
+    glutPostRedisplay ();
 }
 
 
 static void display_func ( void )
 {
-	pre_display ();
+    pre_display ();
     draw_atoms ();
-	post_display ();
+    post_display ();
 }
 
 
@@ -183,15 +182,11 @@ static void open_glut_window ( void ){
     glutSwapBuffers ();
 
     pre_display ();
-	
-    // glutKeyboardFunc ( key_func );
-	// glutMouseFunc ( mouse_func );
-	// glutMotionFunc ( motion_func );
     
     glutReshapeFunc ( reshape_func );
 
     glutIdleFunc( idle_func );
-	glutDisplayFunc ( display_func );
+    glutDisplayFunc ( display_func );
 }
 
 
