@@ -1,7 +1,8 @@
 include in.parameters
 
 CC       = gcc
-CFLAGS	 = -std=gnu99 -Wall -Wextra -g
+CFLAGS	 = -O1 -funroll-loops -ffast-math -march=native -ftree-vectorize
+WFLAGS	 = -std=gnu99 -Wall -Wextra -g
 LDFLAGS	 = -lm -lgomp
 
 PARAMETERS	= -DN=$(N) -DSEED=$(SEED) -DT0=$(T0) -DRhoi=$(Rhoi) -Drcut=$(rcut) \
