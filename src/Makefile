@@ -10,7 +10,7 @@ PARAMETERS	= -DN=$(N) -DSEED=$(SEED) -DT0=$(T0) -DRhoi=$(Rhoi) -Drcut=$(rcut) \
 
 TARGETS		= tiny_md viz
 SOURCES		= $(shell echo *.c)
-OBJECTS     = init.o lj_force.o verlet.o pbc.o rescale.o md_step.o
+OBJECTS     = init.o verlet.o pbc.o lj_force.o rescale.o md_step.o
 
 all: $(TARGETS)
 

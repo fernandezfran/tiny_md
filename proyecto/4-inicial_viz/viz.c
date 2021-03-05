@@ -5,7 +5,7 @@
 
 // variables globales
 static double Ekin, Epot, Temp, Pres;       // variables macroscopicas
-static double Rho, cell_V, cell_L, tail, Etail, Ptail;
+static double Rho, V, box_size, tail, Etail, Ptail;
 static double *rxyz, *vxyz, *fxyz;          // variables microscopicas
 static double Rhob, sf, epotm, presm;
 static int switcher = 0, frames = 0, mes;
@@ -15,15 +15,20 @@ static int switcher = 0, frames = 0, mes;
 
 static double glL = cbrt((double)N / (Rhoi - 0.8));
 static int win_id;
-static int win_x = 600, win_y = 600;
+static int win_x = 900, win_y = 900;
 
 
-static void pre_display ( void ){
-	glViewport ( 0, 0, win_x, win_y );
-	glMatrixMode ( GL_PROJECTION );
-	glLoadIdentity ();
-	gluOrtho2D ( 0.0, 1.0, 0.0, 1.0 );
-	glClearColor ( 0.0f, 0.0f, 0.0f, 1.0f );
+static void pre_display ( void ){ // 3D 
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    gluPerspective(45.0, (float)win_x / win_y, 1.0, 0.0);
+    gluLookAt(1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 1.0, 0.0, 0.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    
+    glClearColor ( 0.0f, 0.0f, 0.0f, 1.0f );
 	glClear ( GL_COLOR_BUFFER_BIT );
 }
 
@@ -34,22 +39,68 @@ static void post_display ( void ){
 
 
 static void draw_atoms ( void ){
+
+    double resize = 0.5;
     
-    int di;
+    // grafico las lineas que delimitan la caja de simulación
+    glBegin( GL_LINES );
 
-    double dx;
-    double dy;
-    double dz;
+        double box_line = resize * (box_size / glL);
+        glColor3d(0.0, 0.0, 1.0);
 
-    double reshape = 0.5 * ((glL - cell_L) / glL);
+        glVertex3d(0.0, 0.0, 0.0);
+        glVertex3d(0.0, 0.0, box_line);
+        
+        glVertex3d(0.0, 0.0, 0.0);
+        glVertex3d(0.0, box_line, 0.0);
+        
+        glVertex3d(0.0, 0.0, 0.0);
+        glVertex3d(box_line, 0.0, 0.0);
+        
+        glVertex3d(box_line, box_line, box_line);
+        glVertex3d(box_line, box_line, 0.0);
+        
+        glVertex3d(box_line, box_line, box_line);
+        glVertex3d(box_line, 0.0, box_line);
+        
+        glVertex3d(box_line, box_line, box_line);
+        glVertex3d(0.0, box_line, box_line);
+        
+        glVertex3d(0.0, box_line, 0.0);
+        glVertex3d(box_line, box_line, 0.0);
+        
+        glVertex3d(0.0, box_line, box_line);
+        glVertex3d(0.0, 0.0, box_line);
 
+        glVertex3d(box_line, 0.0, box_line);
+        glVertex3d(box_line, 0.0, 0.0);
+        
+        glVertex3d(box_line, 0.0, box_line);
+        glVertex3d(0.0, 0.0, box_line);
+        
+        glVertex3d(0.0, box_line, box_line);
+        glVertex3d(0.0, box_line, 0.0);
+
+        glVertex3d(box_line, box_line, 0.0);
+        glVertex3d(box_line, 0.0, 0.0);
+
+    glEnd();
+
+    // grafico las particulas (x, y, z) en el punto (dx, dy, dx), son reescaleadas
+    // a [0, 1] y luego multiplicadas con un factor que las achica para poder 
+    // apreciar mejor el cambio en el volumen
     glBegin( GL_POINTS );
+    
+        int di;
+
+        double dx;
+        double dy;
+        double dz;
 
         for (di = 0; di < 3*N; di+=3){ 
-            // x, y, z entre 0 y 1
-            dx = rxyz[di + 0] / glL + reshape;
-            dy = rxyz[di + 1] / glL + reshape;
-            dz = rxyz[di + 2] / glL + reshape;
+            dx = (rxyz[di + 0] / glL) * resize;
+            dy = (rxyz[di + 1] / glL) * resize;
+            dz = (rxyz[di + 2] / glL) * resize;
 
             glColor3d(0.0, 1.0, 0.0);
             glVertex3d(dx, dy, dz);
@@ -60,14 +111,14 @@ static void draw_atoms ( void ){
 }
 
 
-static void reshape_func ( int width, int height )
+/*static void reshape_func ( int width, int height )
 {
 	glutSetWindow ( win_id );
 	glutReshapeWindow ( width, height );
 
 	win_x = width;
 	win_y = height;
-}
+}*/
 
 
 static void idle_func ( void ){
@@ -75,29 +126,29 @@ static void idle_func ( void ){
     if (switcher == 3){
         
         Rho = Rhoi;
-        cell_V = (double)N / Rho;
-        cell_L = cbrt(cell_V);
+        V = (double)N / Rho;
+        box_size = cbrt(V);
         tail   = 16.0*M_PI*Rho*((2.0/3.0)*pow(rcut,-9) - pow(rcut,-3))/3.0;
         Etail  = tail*(double)N;
         Ptail  = tail*Rho;
         
         init_pos(rxyz, Rho);
         init_vel(vxyz, &Temp, &Ekin);
-        forces(rxyz, fxyz, &Epot, &Pres, &Temp, Rho, cell_V, cell_L);
+        forces(rxyz, fxyz, &Epot, &Pres, &Temp, Rho, V, box_size);
 
         switcher = 0;
 
     }else if (switcher == 2){ // imprimo propiedades en la terminal y cambio la densidad
         
-        printf("%f\t%f\t%f\t%f\n", Rho, cell_V, epotm/(double)mes,
+        printf("%f\t%f\t%f\t%f\n", Rho, V, epotm/(double)mes,
                                    presm/(double)mes);
 
         Rhob   = Rho;
         Rho    = Rho - 0.1;
 
 
-        cell_V = (double)N / Rho;
-        cell_L = cbrt(cell_V);
+        V = (double)N / Rho;
+        box_size = cbrt(V);
         tail   = 16.0*M_PI*Rho*((2.0/3.0)*pow(rcut,-9) - pow(rcut,-3))/3.0;
         Etail  = tail*(double)N;
         Ptail  = tail*Rho;
@@ -107,7 +158,7 @@ static void idle_func ( void ){
             rxyz[k] *=sf;
         }
         init_vel(vxyz, &Temp, &Ekin);
-        forces(rxyz, fxyz, &Epot, &Pres, &Temp, Rho, cell_V, cell_L);
+        forces(rxyz, fxyz, &Epot, &Pres, &Temp, Rho, V, box_size);
         
         switcher = 0;
         if (fabs(Rho - (Rhoi - 0.9f)) < 1e-6){
@@ -120,7 +171,7 @@ static void idle_func ( void ){
         for (int i = frames; i < frames + tmes; i++){
             
             velocity_verlet(rxyz, vxyz, fxyz, &Epot, &Ekin, &Pres, &Temp, Rho, 
-                            cell_V, cell_L);
+                            V, box_size);
             
             sf = sqrt(T0/Temp);
             for (int k = 0; k < 3*N; k++){ // reescaleo de velocidades
@@ -143,7 +194,7 @@ static void idle_func ( void ){
         while ( frames % teq != 0){
 
             velocity_verlet(rxyz, vxyz, fxyz, &Epot, &Ekin, &Pres, &Temp, Rho, 
-                            cell_V, cell_L);
+                            V, box_size);
 
             sf = sqrt(T0/Temp);
             for (int k = 0; k < 3*N; k++){ // reescaleo de velocidades
@@ -190,8 +241,7 @@ static void open_glut_window ( void ){
     // glutKeyboardFunc ( key_func );
 	// glutMouseFunc ( mouse_func );
 	// glutMotionFunc ( motion_func );
-    
-    glutReshapeFunc ( reshape_func );
+    //glutReshapeFunc ( reshape_func );
 
     glutIdleFunc( idle_func );
 	glutDisplayFunc ( display_func );
@@ -213,15 +263,15 @@ int main( int argc, char ** argv){
     srand(SEED);
     Rho = Rhoi;
     Rhob   = Rho;
-    cell_V = (double)N / Rho;
-    cell_L = cbrt(cell_V);
+    V = (double)N / Rho;
+    box_size = cbrt(V);
     tail   = 16.0*M_PI*Rho*((2.0/3.0)*pow(rcut,-9) - pow(rcut,-3))/3.0;
     Etail  = tail*(double)N;
     Ptail  = tail*Rho;
     
     init_pos(rxyz, Rho);
     init_vel(vxyz, &Temp, &Ekin);
-    forces(rxyz, fxyz, &Epot, &Pres, &Temp, Rho, cell_V, cell_L);
+    forces(rxyz, fxyz, &Epot, &Pres, &Temp, Rho, V, box_size);
     //
     //
 

@@ -23,7 +23,7 @@ static long int frames = 0;
 
 static double glL = cbrt((double)N / (Rhoi - 0.8));
 static int win_id;
-static int win_x = 600, win_y = 600;
+static int win_x = 900, win_y = 900;
 
 
 static void pre_display ( void ){
