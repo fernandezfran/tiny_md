@@ -26,13 +26,18 @@ static int win_id;
 static int win_x = 900, win_y = 900;
 
 
-static void pre_display ( void ){
-    glViewport ( 0, 0, win_x, win_y );
-    glMatrixMode ( GL_PROJECTION );
-    glLoadIdentity ();
-    gluOrtho2D ( 0.0, 1.0, 0.0, 1.0 );
+static void pre_display ( void ){ // 3D 
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    gluPerspective(45.0, (float)win_x / win_y, 1.0, 0.0);
+    gluLookAt(1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 1.0, 0.0, 0.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    
     glClearColor ( 0.0f, 0.0f, 0.0f, 1.0f );
-    glClear ( GL_COLOR_BUFFER_BIT );
+	glClear ( GL_COLOR_BUFFER_BIT );
 }
 
 
@@ -43,21 +48,69 @@ static void post_display ( void ){
 
 static void draw_atoms ( void ){
     
-    int di;
+    double resize = 0.5;
+    
+    // grafico las lineas que delimitan la caja de simulación
+    glBegin( GL_LINES );
 
-    double dx;
-    double dy;
-    double dz;
+        double box_line = resize * (box_size / glL);
+        glColor3d(0.0, 0.0, 1.0);
 
-    double reshape = 0.5 * ((glL - box_size) / glL);
+        glVertex3d(0.0, 0.0, 0.0);
+        glVertex3d(0.0, 0.0, box_line);
+        
+        glVertex3d(0.0, 0.0, 0.0);
+        glVertex3d(0.0, box_line, 0.0);
+        
+        glVertex3d(0.0, 0.0, 0.0);
+        glVertex3d(box_line, 0.0, 0.0);
+        
+        glVertex3d(box_line, box_line, box_line);
+        glVertex3d(box_line, box_line, 0.0);
+        
+        glVertex3d(box_line, box_line, box_line);
+        glVertex3d(box_line, 0.0, box_line);
+        
+        glVertex3d(box_line, box_line, box_line);
+        glVertex3d(0.0, box_line, box_line);
+        
+        glVertex3d(0.0, box_line, 0.0);
+        glVertex3d(box_line, box_line, 0.0);
+        
+        glVertex3d(0.0, box_line, box_line);
+        glVertex3d(0.0, 0.0, box_line);
 
+        glVertex3d(box_line, 0.0, box_line);
+        glVertex3d(box_line, 0.0, 0.0);
+        
+        glVertex3d(box_line, 0.0, box_line);
+        glVertex3d(0.0, 0.0, box_line);
+        
+        glVertex3d(0.0, box_line, box_line);
+        glVertex3d(0.0, box_line, 0.0);
+
+        glVertex3d(box_line, box_line, 0.0);
+        glVertex3d(box_line, 0.0, 0.0);
+
+    glEnd();
+
+    
+    // grafico las particulas (x, y, z) en el punto (dx, dy, dx), son reescaleadas
+    // a [0, 1] y luego multiplicadas con un factor que las achica para poder 
+    // apreciar mejor el cambio en el volumen
     glBegin( GL_POINTS );
 
+        int di;
+
+        double dx;
+        double dy;
+        double dz;
+        
         for (di = 0; di < N; di++){ 
             // x, y, z entre 0 y 1
-            dx = rxyz[      di] / glL + reshape;
-            dy = rxyz[  N + di] / glL + reshape;
-            dz = rxyz[2*N + di] / glL + reshape;
+            dx = (rxyz[      di] / glL) * resize;
+            dy = (rxyz[  N + di] / glL) * resize;
+            dz = (rxyz[2*N + di] / glL) * resize;
 
             glColor3d(0.0, 1.0, 0.0);
             glVertex3d(dx, dy, dz);
@@ -68,14 +121,14 @@ static void draw_atoms ( void ){
 }
 
 
-static void reshape_func ( int width, int height )
+/*static void reshape_func ( int width, int height )
 {
     glutSetWindow ( win_id );
     glutReshapeWindow ( width, height );
 
     win_x = width;
     win_y = height;
-}
+}*/
 
 
 static void idle_func ( void ){
@@ -182,8 +235,6 @@ static void open_glut_window ( void ){
     glutSwapBuffers ();
 
     pre_display ();
-    
-    glutReshapeFunc ( reshape_func );
 
     glutIdleFunc( idle_func );
     glutDisplayFunc ( display_func );

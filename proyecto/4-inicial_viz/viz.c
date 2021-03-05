@@ -8,7 +8,8 @@ static double Ekin, Epot, Temp, Pres;       // variables macroscopicas
 static double Rho, V, box_size, tail, Etail, Ptail;
 static double *rxyz, *vxyz, *fxyz;          // variables microscopicas
 static double Rhob, sf, epotm, presm;
-static int switcher = 0, frames = 0, mes;
+static int switcher = 0, mes;
+static long int frames = 0;
 
 
 // OpenGL specific drawing routines 

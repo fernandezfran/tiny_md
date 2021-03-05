@@ -1,11 +1,6 @@
 /*
  * Tiny Molecular Dynamics
  *
- * sistema de Lennard-Jones
- * N y V constantes
- * algoritmo de Velocity-Verlet para la evolución temporal
- * reescaleo de velocidades para la temperatura
- *
  * Unidades: Lennard-Jones
  *
  */
@@ -14,13 +9,13 @@
 #define PARAMETERS_H
 
 #include <stdio.h>  // printf(), fprintf()
-#include <math.h>   // sqrt(), cbrt(), pow(), M_PI, ...
+#include <math.h>   // sqrt(), cbrt(), pow(), M_PI
 #include <stdlib.h> // rand()
 #include <time.h>   // time(NULL)
 #include <omp.h>    // omp_get_wtime()
 
 #ifndef N // número de particulas (debe ser un 4m^3 para el cristal inicial)
-#define N 256
+#define N 864
 #endif
 
 #ifndef SEED // rand SEED para las velocidades
