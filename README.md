@@ -6,7 +6,9 @@
 
 Proyecto de speed-up de un código de Dinámica Molecular con un potencial interatómico de Lennard-Jones. Inicialmente se dan las posiciones en un cristal FCC y velocidades aleatorias distribuidas uniformemente según la temperatura inicial. Las fuerzas se obtienen de un potencial de LJ (12-6) y la evolución temporal viene dada por el algoritmo Velocity Verlet. Se consideran condiciones periódicas de contorno para reproducir un sistema infinito. La temperatura es controlada a través de un reescaleo en las velocidades. Cada cierta cantidad de pasos de dinámica molecular se cambia la densidad del sistema y se reescalean las posiciones para obtener la ecuación de estado.
 
-En el directorio `proyecto/` se encuentra el desarrollo del trabajo, para más información se puede ver `doc/informe.pdf`.
+En el directorio `proyecto/` se encuentra el desarrollo del trabajo, para más información se puede ver `doc/informe.pdf`. 
+
+En `proyecto0_cp2021/` está el proyecto inicial para la edición 2021 de Computación paralela.
 
 
 ### Requisitos
