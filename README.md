@@ -8,7 +8,7 @@ Proyecto de speed-up de un código de Dinámica Molecular con un potencial inter
 
 En el directorio `proyecto/` se encuentra el desarrollo del trabajo, para más información se puede ver `doc/informe.pdf`. 
 
-En `proyecto0_cp2021/` está el proyecto inicial para la edición 2021 de Computación paralela.
+En `proyecto/proyecto0_cp2021/` está cómo mandé el proyecto inicial para la edición 2021 de Computación paralela.
 
 
 ### Requisitos
