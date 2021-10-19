@@ -13,8 +13,8 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 
-#include <math.h>   // pow()
-#include <time.h>   // time(NULL)
+#include <math.h> // pow()
+#include <time.h> // time(NULL)
 
 #ifndef N // número de particulas (debe ser un 4m^3 para el cristal inicial)
 #define N 864
@@ -52,6 +52,6 @@
 #define tmes 10
 #endif
 
-#define ecut (4.0*(pow(rcut,-12) - pow(rcut,-6)))
+#define ecut (4.0 * (pow(rcut, -12) - pow(rcut, -6)))
 
 #endif

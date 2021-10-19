@@ -5,6 +5,7 @@
 #define LJ_FORCE_H
 
 void forces(const double *rxyz, double *fxyz, double *epot, double *pres,
-            const double *temp, const double rho, const double V, const double L);
+            const double *temp, const double rho, const double V,
+            const double L);
 
 #endif

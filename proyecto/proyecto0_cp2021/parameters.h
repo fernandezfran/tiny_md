@@ -8,11 +8,11 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 
-#include <stdio.h>  // printf(), fprintf()
 #include <math.h>   // sqrt(), cbrt(), pow(), M_PI
+#include <omp.h>    // omp_get_wtime()
+#include <stdio.h>  // printf(), fprintf()
 #include <stdlib.h> // rand()
 #include <time.h>   // time(NULL)
-#include <omp.h>    // omp_get_wtime()
 
 #ifndef N // número de particulas (debe ser un 4m^3 para el cristal inicial)
 #define N 864
@@ -50,6 +50,6 @@
 #define tmes 10
 #endif
 
-#define ecut (4.0*(pow(rcut,-12) - pow(rcut,-6)))
+#define ecut (4.0 * (pow(rcut, -12) - pow(rcut, -6)))
 
 #endif

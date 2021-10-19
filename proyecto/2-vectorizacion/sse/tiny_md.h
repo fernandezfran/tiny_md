@@ -13,11 +13,11 @@
 #ifndef TINY_MD_H
 #define TINY_MD_H
 
-#include <stdio.h>  // printf(), fprintf()
 #include <math.h>   // sqrt(), cbrt(), pow(), M_PI, ...
+#include <omp.h>    // omp_get_wtime()
+#include <stdio.h>  // printf(), fprintf()
 #include <stdlib.h> // rand()
 #include <time.h>   // time(NULL)
-#include <omp.h>    // omp_get_wtime()
 // intrinsics force
 #include <emmintrin.h>
 #include <smmintrin.h>
@@ -59,6 +59,6 @@
 #define tmes 10
 #endif
 
-#define ecut (4.0*(pow(rcut,-12) - pow(rcut,-6)))
+#define ecut (4.0 * (pow(rcut, -12) - pow(rcut, -6)))
 
 #endif
